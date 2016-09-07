@@ -34,22 +34,24 @@
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\LocalConfig.props" />
   </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\LocalConfig.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>D:\caffe-build\install\include;D:\caffe-build\install\include\boost-1_59;$(CUDA_PATH_V7_5)\include;D:\opencv310\build_vc\install\include;$(SolutionDir)rapidjson\include;$(SolutionDir)stb;$(SolutionDir)include;$(SolutionDir)msgpack-c\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\opencv310\build_vc\install\x64\vc12\lib;D:\caffe-build\install\lib;$(CUDA_PATH_V7_5)\lib\$(PlatformName);D:\program\boost_1_59_0\stage\x64\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(CaffePath)\include\;$(OpenCvPath)\include;$(GlogPath)\src\windows;$(CUDA_PATH_V7_5)\include;D:\caffe-build\install\include;D:\caffe-build\install\include\boost-1_59;D:\opencv310\build_vc\install\include;$(SolutionDir)rapidjson\include;$(SolutionDir)stb;$(SolutionDir)include;$(SolutionDir)msgpack-c\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(OpenCvPath)\x64\vc12\lib;$(CUDA_PATH_V7_5)\lib\$(PlatformName);D:\opencv310\build_vc\install\x64\vc12\lib;D:\caffe-build\install\lib;D:\program\boost_1_59_0\stage\x64\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)bin\</OutDir>
     <TargetName>$(ProjectName)d</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>D:\caffe-build\install\include;D:\caffe-build\install\include\boost-1_59;$(CUDA_PATH_V7_5)\include;D:\opencv310\build_vc\install\include;$(SolutionDir)rapidjson\include;$(SolutionDir)stb;$(SolutionDir)include;$(SolutionDir)msgpack-c\include;$(IncludePath)</IncludePath>
-    <LibraryPath>D:\opencv310\build_vc\install\x64\vc12\lib;D:\caffe-build\install\lib;$(CUDA_PATH_V7_5)\lib\$(PlatformName);D:\program\boost_1_59_0\stage\x64\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(CaffePath)\include\;$(OpenCvPath)\include;$(GlogPath)\src\windows;$(CUDA_PATH_V7_5)\include;D:\caffe-build\install\include;D:\caffe-build\install\include\boost-1_59;D:\opencv310\build_vc\install\include;$(SolutionDir)rapidjson\include;$(SolutionDir)stb;$(SolutionDir)include;$(SolutionDir)msgpack-c\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(OpenCvPath)\x64\vc12\lib;$(CUDA_PATH_V7_5)\lib\$(PlatformName);D:\opencv310\build_vc\install\x64\vc12\lib;D:\caffe-build\install\lib;D:\program\boost_1_59_0\stage\x64\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)bin\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -99,7 +101,19 @@
     <ClInclude Include="..\common\stImage.h" />
     <ClInclude Include="..\common\waifu2x.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\protobuf-v120.2.6.1\build\native\protobuf-v120.targets" Condition="Exists('..\packages\protobuf-v120.2.6.1\build\native\protobuf-v120.targets')" />
+    <Import Project="..\packages\OpenBLAS.0.2.14.1\build\native\openblas.targets" Condition="Exists('..\packages\OpenBLAS.0.2.14.1\build\native\openblas.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\protobuf-v120.2.6.1\build\native\protobuf-v120.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\protobuf-v120.2.6.1\build\native\protobuf-v120.targets'))" />
+    <Error Condition="!Exists('..\packages\OpenBLAS.0.2.14.1\build\native\openblas.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\OpenBLAS.0.2.14.1\build\native\openblas.targets'))" />
+  </Target>
 </Project>
